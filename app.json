@@ -13,9 +13,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
@@ -27,6 +25,16 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "firebase": {
+        "apiKey": "AIzaSyCDaSZ5VL61PXYtEcWLJGz9bbdkUKy1zHQ",
+        "authDomain": "react-native-tutorial-review.firebaseapp.com",
+        "projectId": "react-native-tutorial-review",
+        "storageBucket": "react-native-tutorial-review.appspot.com",
+        "messagingSenderId": "124228999805",
+        "appId": "1:124228999805:web:46aea8cd9bf3d5fe39af14"
+      }
     }
   }
 }
