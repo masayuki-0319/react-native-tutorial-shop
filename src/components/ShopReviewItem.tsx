@@ -1,5 +1,11 @@
 import React, { VFC } from 'react';
-import { View, Text, Image, StyleSheet, Dimensions } from 'react-native';
+import {
+  Text,
+  Image,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
 
 import { Shop } from '../../types/Shop';
 import { Stars } from './Stars';
@@ -10,18 +16,19 @@ const PADDING = 16;
 const IMAGE_WIDTH = CONTAINER_WIDTH - PADDING * 2;
 type Props = {
   shop: Shop;
+  onPress: () => void;
 };
 
-export const ShopReviewItem: VFC<Props> = (props) => {
-  const { name, place, imageUrl, description, score } = props.shop;
+export const ShopReviewItem: VFC<Props> = ({ shop, onPress }) => {
+  const { name, place, imageUrl, score } = shop;
 
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <Image source={{ uri: imageUrl }} style={styles.image} />
       <Text style={styles.nameText}>{name}</Text>
       <Text style={styles.placeText}>{place}</Text>
       <Stars score={score} />
-    </View>
+    </TouchableOpacity>
   );
 };
 
