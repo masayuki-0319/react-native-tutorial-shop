@@ -5,15 +5,10 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { Shop } from '../../types/Shop';
 import { ShopReviewItem } from '../components/ShopReviewItem';
 import { getShops } from '../lib/firebase';
-
-type RootStackParamList = {
-  Home: undefined;
-  Shop: undefined;
-};
-type ShopScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Shop'>;
+import { RootStackParamList } from '../../types/Navigation';
 
 type Props = {
-  navigation: ShopScreenNavigationProp;
+  navigation: StackNavigationProp<RootStackParamList, 'Home'>;
 };
 
 export const HomeScreen: VFC<Props> = ({ navigation }) => {
@@ -28,15 +23,15 @@ export const HomeScreen: VFC<Props> = ({ navigation }) => {
     setShops(shops);
   };
 
-  const onPressShop = () => {
-    navigation.navigate('Shop');
+  const onPressShop = (shop: Shop) => {
+    navigation.navigate('Shop', { shop });
   };
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
         data={shops}
         renderItem={({ item }: { item: Shop }) => (
-          <ShopReviewItem shop={item} onPress={onPressShop} />
+          <ShopReviewItem shop={item} onPress={() => onPressShop(item)} />
         )}
         keyExtractor={(item, index) => index.toString()}
         numColumns={2}
