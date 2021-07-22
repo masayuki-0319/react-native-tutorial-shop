@@ -3,10 +3,12 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { HomeScreen } from '../screens/HomeScreen';
 import ShopScreen from '../screens/ShopScreen';
 import { RootStackParamList } from '../types/Navigation';
+import { CreateReviewScreen } from '../screens/CreateReviewScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
+const RootStack = createStackNavigator<RootStackParamList>();
 
-const HomeStackNavigator = () => {
+const MainStack = () => {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -23,4 +25,13 @@ const HomeStackNavigator = () => {
   );
 };
 
-export default HomeStackNavigator;
+export const HomeStackNavigator = () => (
+  <RootStack.Navigator mode='modal'>
+    <RootStack.Screen
+      name='Main'
+      component={MainStack}
+      options={{ headerShown: false }}
+    />
+    <RootStack.Screen name='CreateReview' component={CreateReviewScreen} />
+  </RootStack.Navigator>
+);
