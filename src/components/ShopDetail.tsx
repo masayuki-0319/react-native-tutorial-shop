@@ -3,7 +3,7 @@ import { View, StyleSheet, Image, Text } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 import { Stars } from './Stars';
-import { Shop } from '../../types/Shop';
+import { Shop } from '../types/Shop';
 
 type Props = {
   shop: Shop;

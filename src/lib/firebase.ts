@@ -2,7 +2,7 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 
 import Constants from 'expo-constants';
-import { Shop } from '../../types/Shop';
+import { Shop } from '../types/Shop';
 
 if (!firebase.apps.length) {
   const firebaseConfig = Constants.manifest!.extra!.firebase;

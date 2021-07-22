@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import { Shop } from '../../types/Shop';
+import { Shop } from '../types/Shop';
 import { Stars } from './Stars';
 
 const { width } = Dimensions.get('window');

@@ -2,10 +2,10 @@ import React, { useEffect, useState, VFC } from 'react';
 import { SafeAreaView, FlatList, StyleSheet } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
-import { Shop } from '../../types/Shop';
+import { Shop } from '../types/Shop';
 import { ShopReviewItem } from '../components/ShopReviewItem';
 import { getShops } from '../lib/firebase';
-import { RootStackParamList } from '../../types/Navigation';
+import { RootStackParamList } from '../types/Navigation';
 
 type Props = {
   navigation: StackNavigationProp<RootStackParamList, 'Home'>;
