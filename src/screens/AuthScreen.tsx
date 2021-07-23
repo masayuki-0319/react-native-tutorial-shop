@@ -5,19 +5,20 @@ import {
   ActivityIndicator,
   Text,
 } from 'react-native';
-// import { signin } from '../lib/firebase';
+import { signIn } from '../lib/firebase';
 // import { UserContext } from '../contexts/userContext';
 
 export const AuthScreen: React.FC = () => {
   // const { setUser } = useContext(UserContext);
 
-  // useEffect(() => {
-  //   const fetchUser = async () => {
-  //     const user = await signin();
-  //     setUser(user);
-  //   };
-  //   fetchUser();
-  // }, []);
+  useEffect(() => {
+    const fetchUser = async () => {
+      const user = await signIn();
+      console.log(user);
+      // setUser(user);
+    };
+    fetchUser();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
