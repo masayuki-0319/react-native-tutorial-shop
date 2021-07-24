@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { userContext } from './src/contexts/userContext';
-import { AppNavigator } from './src/navigation/AppNavigator';
+
 import { User } from './src/types/User';
 import { Review } from './src/types/Review';
 import { reviewContext } from './src/contexts/reviewsContext';
+import { userContext } from './src/contexts/userContext';
+import { AppNavigator } from './src/navigation/AppNavigator';
 
 export default function App() {
   const [user, setUser] = useState<User | null>(null);

@@ -1,20 +1,21 @@
 import React, { useContext, useEffect, useState, VFC } from 'react';
 import { StyleSheet, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../types/Navigation';
-import { RouteProp } from '@react-navigation/native';
-import { ShopDetail } from '../components/ShopDetail';
-import { FloatingActionButton } from '../components/FloatingActionButton';
-import { getReviews } from '../lib/firebase';
-import { Review } from '../types/Review';
 import { FlatList } from 'react-native-gesture-handler';
-import { ReviewItem } from '../components/ReviewItem';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
+
+import { RootStackParamList } from '../types/Navigation';
+import { getReviews } from '../lib/firebase';
 import { reviewContext } from '../contexts/reviewsContext';
 
+import { ShopDetail } from '../components/ShopDetail';
+import { FloatingActionButton } from '../components/FloatingActionButton';
+import { ReviewItem } from '../components/ReviewItem';
+
 type Props = {
-  navigation: StackNavigationProp<RootStackParamList, 'Shop'>;
   route: RouteProp<RootStackParamList, 'Shop'>;
+  navigation: StackNavigationProp<RootStackParamList, 'Shop'>;
 };
 
 const ShopScreen: VFC<Props> = ({ navigation, route }) => {

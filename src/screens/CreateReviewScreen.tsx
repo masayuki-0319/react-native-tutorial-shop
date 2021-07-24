@@ -1,20 +1,20 @@
 import React, { useContext, useLayoutEffect, useState } from 'react';
 import { StyleSheet, SafeAreaView, Image, View, Alert } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
+import firebase from 'firebase';
 
 import { RootStackParamList } from '../types/navigation';
-import { RouteProp } from '@react-navigation/native';
+import { Review } from '../types/Review';
+import { getExtention } from '../utils/file';
+import { userContext } from '../contexts/userContext';
+import { pickImage } from '../lib/imagePicker';
+import { createReviewRef, uploadImage } from '../lib/firebase';
+
 import { IconButton } from '../components/IconButton';
 import { TextArea } from '../components/TextArea';
 import { StarInput } from '../components/StarInput';
 import { Button } from '../components/Button';
-import { createReviewRef, uploadImage } from '../lib/firebase';
-import { userContext } from '../contexts/userContext';
-import { Shop } from '../types/Shop';
-import { Review } from '../types/Review';
-import firebase from 'firebase';
-import { pickImage } from '../lib/imagePicker';
-import { getExtention } from '../utils/file';
 import { Loading } from '../components/Loading';
 import { reviewContext } from '../contexts/reviewsContext';
 
