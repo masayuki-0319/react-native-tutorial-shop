@@ -1,5 +1,5 @@
 import React, { useContext, useLayoutEffect, useState } from 'react';
-import { StyleSheet, SafeAreaView, Image, View } from 'react-native';
+import { StyleSheet, SafeAreaView, Image, View, Alert } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 import { RootStackParamList } from '../types/navigation';
@@ -8,12 +8,14 @@ import { IconButton } from '../components/IconButton';
 import { TextArea } from '../components/TextArea';
 import { StarInput } from '../components/StarInput';
 import { Button } from '../components/Button';
-import { addReview } from '../lib/firebase';
+import { createReviewRef, uploadImage } from '../lib/firebase';
 import { userContext } from '../contexts/userContext';
 import { Shop } from '../types/Shop';
 import { Review } from '../types/Review';
 import firebase from 'firebase';
 import { pickImage } from '../lib/imagePicker';
+import { getExtention } from '../utils/file';
+import { Loading } from '../components/Loading';
 
 type Props = {
   navigation: StackNavigationProp<RootStackParamList, 'CreateReview'>;
@@ -28,6 +30,7 @@ export const CreateReviewScreen: React.FC<Props> = ({
   const [text, setText] = useState('');
   const [score, setScore] = useState(3);
   const [imageUri, setImageUri] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { user } = useContext(userContext);
 
@@ -39,9 +42,24 @@ export const CreateReviewScreen: React.FC<Props> = ({
   };
 
   const onSubmit = async () => {
+    if (text === '') {
+      Alert.alert('レビュー又は画像を入力してください');
+      return;
+    }
+    setIsLoading(true);
+    const reviewDocRef = await createReviewRef(shop.id as string);
+
+    let downloadUrl = '';
+    if (imageUri !== null) {
+      const ext = getExtention(imageUri);
+      const stroragePath = `reviews/${reviewDocRef.id}.${ext}`;
+      downloadUrl = await uploadImage(imageUri, stroragePath);
+    }
+
     const review: Review = {
       text,
       score,
+      imageUrl: downloadUrl,
       user: {
         name: user!.name,
         id: user!.id as string,
@@ -53,7 +71,9 @@ export const CreateReviewScreen: React.FC<Props> = ({
       updatedAt: firebase.firestore.Timestamp.now(),
       createdAt: firebase.firestore.Timestamp.now(),
     };
-    await addReview(shop.id as string, review);
+    await reviewDocRef.set(review);
+    setIsLoading(false);
+    navigation.goBack();
   };
 
   useLayoutEffect(() => {
@@ -81,6 +101,7 @@ export const CreateReviewScreen: React.FC<Props> = ({
         )}
       </View>
       <Button text='レビューを投稿する' onPress={onSubmit} />
+      <Loading visible={isLoading} />
     </SafeAreaView>
   );
 };

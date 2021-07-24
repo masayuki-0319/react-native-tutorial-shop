@@ -48,11 +48,26 @@ export const updateUser = async (userId: string, params: Partial<User>) => {
   await firebase.firestore().collection('users').doc(userId).update(params);
 };
 
-export const addReview = async (shopId: string, review: Review) => {
-  await firebase
+export const createReviewRef = async (shopId: string) => {
+  return await firebase
     .firestore()
     .collection('shops')
     .doc(shopId)
     .collection('reviews')
-    .add(review);
+    .doc();
+};
+
+export const uploadImage = async (uri: string, path: string): Promise<string> => {
+  const localUri = await fetch(uri);
+  const blob = await localUri.blob();
+  const ref = firebase.storage().ref().child(path);
+
+  let downloadUrl = '';
+  try {
+    await ref.put(blob);
+    downloadUrl = await ref.getDownloadURL();
+  } catch (err) {
+    console.error(err);
+  }
+  return downloadUrl;
 };
