@@ -35,6 +35,7 @@ export const ShopDetail: React.FC<Props> = ({ shop }: Props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginBottom: 48,
   },
   imageContainer: {
     width: '100%',

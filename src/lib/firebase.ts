@@ -57,7 +57,10 @@ export const createReviewRef = async (shopId: string) => {
     .doc();
 };
 
-export const uploadImage = async (uri: string, path: string): Promise<string> => {
+export const uploadImage = async (
+  uri: string,
+  path: string
+): Promise<string> => {
   const localUri = await fetch(uri);
   const blob = await localUri.blob();
   const ref = firebase.storage().ref().child(path);
@@ -70,4 +73,17 @@ export const uploadImage = async (uri: string, path: string): Promise<string> =>
     console.error(err);
   }
   return downloadUrl;
+};
+
+export const getReviews = async (shopId: string) => {
+  const reviewDocs = await firebase
+    .firestore()
+    .collection('shops')
+    .doc(shopId)
+    .collection('reviews')
+    .orderBy('createdAt', 'desc')
+    .get();
+  return reviewDocs.docs.map(
+    (doc) => ({ ...doc.data(), id: doc.id } as Review)
+  );
 };
