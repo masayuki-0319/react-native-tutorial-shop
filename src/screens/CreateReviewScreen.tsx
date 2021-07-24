@@ -1,5 +1,5 @@
 import React, { useContext, useLayoutEffect, useState } from 'react';
-import { StyleSheet, SafeAreaView, Text } from 'react-native';
+import { StyleSheet, SafeAreaView, Image, View } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 import { RootStackParamList } from '../types/navigation';
@@ -13,6 +13,7 @@ import { userContext } from '../contexts/userContext';
 import { Shop } from '../types/Shop';
 import { Review } from '../types/Review';
 import firebase from 'firebase';
+import { pickImage } from '../lib/imagePicker';
 
 type Props = {
   navigation: StackNavigationProp<RootStackParamList, 'CreateReview'>;
@@ -26,8 +27,16 @@ export const CreateReviewScreen: React.FC<Props> = ({
   const { shop } = route.params;
   const [text, setText] = useState('');
   const [score, setScore] = useState(3);
+  const [imageUri, setImageUri] = useState<string | null>(null);
 
   const { user } = useContext(userContext);
+
+  const onPickImage = async () => {
+    const uri = await pickImage();
+    if (uri !== undefined) {
+      setImageUri(uri);
+    }
+  };
 
   const onSubmit = async () => {
     const review: Review = {
@@ -65,6 +74,12 @@ export const CreateReviewScreen: React.FC<Props> = ({
         label='レビュー'
         placeholder='レビューを書いてください'
       />
+      <View style={styles.photoConatainer}>
+        <IconButton name='camera' onPress={onPickImage} color='#ccc' />
+        {imageUri !== null && (
+          <Image source={{ uri: imageUri }} style={styles.image} />
+        )}
+      </View>
       <Button text='レビューを投稿する' onPress={onSubmit} />
     </SafeAreaView>
   );
@@ -74,5 +89,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+  },
+  photoConatainer: {
+    margin: 8,
+  },
+  image: {
+    width: 100,
+    height: 100,
+    margin: 8,
   },
 });
