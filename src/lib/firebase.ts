@@ -5,6 +5,7 @@ import 'firebase/auth';
 import Constants from 'expo-constants';
 import { Shop } from '../types/Shop';
 import { initialUser, User } from '../types/User';
+import { Review } from '../types/Review';
 
 if (!firebase.apps.length) {
   const firebaseConfig = Constants.manifest!.extra!.firebase;
@@ -17,7 +18,9 @@ export const getShops = async () => {
     .collection('shops')
     .orderBy('score', 'desc')
     .get();
-  const shops = snapshot.docs.map((doc) => doc.data() as Shop);
+  const shops = snapshot.docs.map(
+    (doc) => ({ ...doc.data(), id: doc.id } as Shop)
+  );
 
   return shops;
 };
@@ -43,4 +46,13 @@ export const signIn = async () => {
 
 export const updateUser = async (userId: string, params: Partial<User>) => {
   await firebase.firestore().collection('users').doc(userId).update(params);
+};
+
+export const addReview = async (shopId: string, review: Review) => {
+  await firebase
+    .firestore()
+    .collection('shops')
+    .doc(shopId)
+    .collection('reviews')
+    .add(review);
 };
